@@ -2018,7 +2018,7 @@ func FindRouteByIPv4Destination(ctx context.Context, conn *ec2.EC2, routeTableID
 	}
 
 	for _, route := range routeTable.Routes {
-		if types.CIDRBlocksEqual(aws.StringValue(route.DestinationCidrBlock), destinationCidr) {
+		if types.CIDRBlocksEqual(aws.StringValue(route.DestinationCidrBlock), destinationCidr) && (route.Origin == nil || *route.Origin != ec2.RouteOriginEnableVgwRoutePropagation) {
 			return route, nil
 		}
 	}
